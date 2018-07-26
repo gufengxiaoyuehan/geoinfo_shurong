@@ -1,6 +1,10 @@
 from datetime import datetime
 
 from flask import current_app
+from math import sqrt
+
+from sqlalchemy import and_
+from sqlalchemy.ext.hybrid import hybrid_method
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import validates
 from . import db
@@ -136,9 +140,17 @@ class Coordinate(db.Model):
     __tablename__ = "coordinates"
     id = db.Column(db.Integer, primary_key=True)
     shape = db.Column(db.String(12))
-    x = db.Column(db.Float(), nullable=False)
-    y = db.Column(db.Float(), nullable=False)
+    x = db.Column(db.Float, nullable=False)
+    y = db.Column(db.Float, nullable=False)
     info = db.relationship("Info", backref="coordinate", lazy="dynamic")
+
+    @hybrid_method
+    def distance_nearby(self,x,y, distance):
+        return self.x.between(x-distance,x+distance) and self.y.between(y-distance,y+distance)
+
+    @distance_nearby.expression
+    def distance_nearby(cls, x, y , distance):
+        return and_(cls.x.between(x-distance,x+distance) , cls.y.between(y-distance,y+distance))
 
     @validates("x")
     def validate_x(self,key, x):
