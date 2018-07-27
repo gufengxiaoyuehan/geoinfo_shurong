@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask import current_app
-from math import sqrt
 
 from sqlalchemy import and_
 from sqlalchemy.ext.hybrid import hybrid_method

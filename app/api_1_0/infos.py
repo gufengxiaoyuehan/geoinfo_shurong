@@ -3,7 +3,7 @@ from .. import db
 from flask import jsonify,request,url_for,current_app
 from ..models import Permission,Info,User,Coordinate
 from .decorators import permission_required
-from .errors import forbidden, bad_request, notfound
+from .errors import  bad_request, notfound
 from .exceptions import ValidationError
 from .utils import paginate
 
@@ -98,3 +98,8 @@ def get_nearby(coordiante):
         "next":next,
         "total":total
     })
+
+
+@api.errorhandler(404)
+def page_not_found(e):
+    return notfound(e.args[0])
