@@ -18,4 +18,4 @@ def paginate(total,page,amount,end_point,**kwargs):
         else:
             prev = url_for(end_point, page=page - 1, amount=amount, **kwargs)
 
-    return page,prev,next
+    return page, prev, next
