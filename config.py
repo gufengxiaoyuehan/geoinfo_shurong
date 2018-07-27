@@ -43,6 +43,7 @@ class ProductionConfig(Config):
     MAIL_SERVER = "smtp.gufengxiaoyuehan.xyz"
     MAIL_PORT = 25
 
+
 config = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
